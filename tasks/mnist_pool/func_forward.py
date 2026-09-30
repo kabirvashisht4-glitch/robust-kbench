@@ -3,38 +3,41 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-def forward_fn(x: torch.Tensor) -> torch.Tensor:
+def forward_fn(x: torch.Tensor, kernel_size: int = 2) -> torch.Tensor:
     """Implements a max pooling layer with kernel size 2:
 
     Args:
         x (torch.Tensor): Input tensor of shape (batch_size, in_channels, height, width)
-        weights (torch.Tensor): Weights matrix of shape (out_channels, in_channels, kernel_height, kernel_width)
-        biases (torch.Tensor): Biases vector of shape (out_channels)
+        kernel_size (int): Kernel size of the max pooling layer
 
     Returns:
-        torch.Tensor: Output tensor of shape (batch_size, out_channels, height, width)
+        torch.Tensor: Output tensor of shape (batch_size, in_channels, height // kernel_size, width // kernel_size)
     """
     # Apply max pooling
-    x = F.max_pool2d(x, kernel_size=2)
+    x = F.max_pool2d(x, kernel_size=kernel_size)
     return x
 
 
 class Model(nn.Module):
     """
-    Simple model that performs Feedforward network block.
+    Simple model that performs a max pooling layer.
     """
 
-    def __init__(self):
+    def __init__(self, kernel_size: int = 2):
         """
-        Initializes the Feedforward network block.
+        Initializes the max pooling layer.
+
+        Args:
+            kernel_size (int): Kernel size of the max pooling layer
         """
         super(Model, self).__init__()
+        self.kernel_size = kernel_size
 
     def forward(self, x: torch.Tensor, fn=forward_fn) -> torch.Tensor:
         """
         Forward pass that calls forward_fn.
         """
-        return fn(x)
+        return fn(x, self.kernel_size)
 
 
 def get_inputs(

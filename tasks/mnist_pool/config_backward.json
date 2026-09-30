@@ -8,7 +8,9 @@
         }
     ],
     "single_init_configs": [
-        {}  
+        {
+            "kernel_size": 2
+        }
     ],
     "single_shared_configs": [
         {}
@@ -28,8 +30,12 @@
         }
     ],
     "multi_init_configs": [
-        {},
-        {}
+        {
+            "kernel_size": 2
+        },
+        {
+            "kernel_size": 2
+        }
     ],
     "multi_shared_configs": [
         {},
